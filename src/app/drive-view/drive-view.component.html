@@ -1,0 +1,44 @@
+<ion-item detail (click)="click()">
+  <ion-text style="padding-top:8px; padding-bottom:8px;"><strong>{{formatDate(drive.date)}}</strong></ion-text>
+  <ion-icon slot="end" color="danger" name="alert-circle" *ngIf="drive.status!='verified'"></ion-icon>
+</ion-item>
+
+<ion-row class="row">
+
+  <!-- Left Column: Mileage/Time -->
+  <ion-col size="4" class="left">
+    
+    <ion-item text-center lines="none" *ngIf="drive.status!='in-progress'">
+      <ion-label position="stacked">Distance</ion-label>
+      <ion-text style="margin-bottom:8px; font-weight:bold;">{{database.distance(drive)}} km</ion-text>
+      <ion-label position="stacked">Duration</ion-label>
+      <ion-text style="margin-bottom:8px; font-weight:bold;">{{database.formatMinutesToString(database.duration(drive))}}</ion-text>
+    </ion-item>
+
+    <ion-item text-center lines="none" *ngIf="drive.status=='in-progress'">
+      <ion-text color="danger" style="margin-bottom:8px; font-size: 110%; font-weight:bold;">Drive In Progress</ion-text>
+    </ion-item>
+  
+  </ion-col>
+
+  <!-- Middle Column: Start/End Location -->
+  <ion-col>
+    <ion-item text-center lines="none">
+      <ion-label position="stacked">Start Location</ion-label>
+      <ion-text style="margin-bottom:8px; font-weight:bold;">{{drive.start_location}}</ion-text>
+      <ion-label position="stacked">End Location</ion-label>
+      <ion-text style="margin-bottom:8px; font-weight:bold;">{{drive.end_location}}</ion-text>
+    </ion-item>
+  </ion-col>
+
+  <!-- Right Column: Start/End Time -->
+  <ion-col class="ion-align-items-end">
+    <ion-item text-center lines="none">
+      <ion-label position="stacked">Start Time</ion-label>
+      <ion-text style="margin-bottom:8px; font-weight:bold;">{{drive.start_time}}</ion-text>
+      <ion-label position="stacked">End Time</ion-label>
+      <ion-text style="margin-bottom:8px; font-weight:bold;">{{drive.end_time}}</ion-text>
+    </ion-item>
+  </ion-col>
+
+</ion-row>

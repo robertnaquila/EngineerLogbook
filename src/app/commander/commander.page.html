@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Home</ion-title>
+
+    <!-- Standard logout button -->
+    <ion-buttons slot="primary">
+      <ion-button routerLink="/" routerDirection="root" fill="clear" slot="primary">
+        Logout
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item lines="none">
+      <ion-avatar><img src="{{database.current.user.photoURL}}"></ion-avatar>
+      <ion-label class="ion-padding-start"> 
+        <h3>{{database.current.user.name}}</h3>
+        <p>{{database.current.user.company}} Coy, {{database.current.user.fleet}}</p>
+      </ion-label>    
+    </ion-item>
+  </ion-list>
+
+  <!-- Notifications -->
+  <ion-list lines="none">
+    <ion-list-header><h4>NOTIFICATIONS</h4></ion-list-header>
+
+    <ion-card *ngFor="let drive of getPendingDrives()" (click)="click(drive)">
+      <ion-card-header>
+        <ion-card-subtitle color="danger"><strong>Pending Review</strong></ion-card-subtitle>
+        <ion-icon style="float: right;" name="chevron-forward"></ion-icon>
+        <ion-card-title>{{drive.date}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Your drive on <b>{{drive.data}}</b> with <b>{{drive.rank}} {{drive.name}} ({{drive.driver}})</b> 
+        from <b>{{drive.start_location}}</b> (<b>{{drive.start_time}} hrs</b>) 
+        to <b>{{drive.end_location}}</b> (<b>{{drive.end_time}} hrs</b>) 
+        is pending review.
+      </ion-card-content>
+    </ion-card>
+
+    <ion-item *ngIf="getPendingDrives().length==0">
+      <ion-label><p>You have no notifications.</p></ion-label>
+    </ion-item>
+
+  
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header><h4>OPERATORS</h4></ion-list-header>
+
+    <ion-item lines="none">
+      <ion-chip *ngFor="let driver of database.current.all_drivers_of_commander" (click)="openDriver(driver)">
+        <ion-avatar>
+          <img src="{{driver.photoURL}}" />
+        </ion-avatar>
+        <ion-label>{{driver.rank}} {{driver.name}}</ion-label>
+      </ion-chip>  
+    </ion-item>
+  
+  </ion-list>
+
+</ion-content>

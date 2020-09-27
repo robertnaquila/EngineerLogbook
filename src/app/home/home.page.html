@@ -1,0 +1,53 @@
+<ion-content id="login-content">
+
+  <form class="form" [formGroup]="validationsForm" (ngSubmit)="loginUser(validationsForm.value)">
+
+    <div>
+      <img src="../../assets/wheel.svg">
+    </div>
+
+    <div class="input-group">
+      <!-- Email -->
+      <ion-item>
+        <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+      </ion-item>
+
+      <!-- Password -->
+      <ion-item>
+        <ion-input type="password" placeholder="Password" formControlName="password" class="form-control" required>
+        </ion-input>
+      </ion-item>
+    </div>
+
+    <label class="error-message">{{errorMessage}}</label>
+
+    <div class="ion-text-right ion-padding-bottom">
+      <ion-label (click)="resetPassword()" color="primary">
+        <p>Forgot Password?</p>
+      </ion-label>
+    </div>
+
+    <ion-button class="submit-btn" type="submit" fill="solid" expand="block" [disabled]="!validationsForm.valid">Login
+    </ion-button>
+
+  </form>
+
+  <div class="ion-text-center ion-padding-top">
+    <ion-label>Don't have account? </ion-label>
+    <ion-label routerLink="/sign-up" color="primary">Create a new account</ion-label>
+  </div>
+
+
+  <div id='debug-stuff' style="position: relative; top: 5em;">
+    <ion-item class="ion-margin-top">
+      <ion-icon slot="start" name="moon"></ion-icon>
+      <ion-label>Dark Mode</ion-label>
+      <ion-toggle slot="end" [(ngModel)]="toggle_dark_mode" id="themeToggle"></ion-toggle>
+    </ion-item>
+    <!-- 
+    <ion-button size="small" fill="outline" (click)="debug('driver')">Debug Dvr</ion-button>
+    <ion-button size="small" fill="outline" (click)="debug('commander')">Debug Comd</ion-button>
+    <ion-button size="small" fill="outline" (click)="debug('admin')">Debug Admin</ion-button> -->
+  </div>
+
+</ion-content>

@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>History</ion-title>
+    
+    <!-- Standard logout button -->
+    <ion-buttons slot="primary">
+      <ion-button routerLink="/" routerDirection="root" fill="clear" slot="primary">
+        Logout
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="getDrives().length > 0">
+
+    <ion-item-divider>
+      <ion-grid>
+        <ion-row class="vertical-align-content">
+  
+          <ion-col no-padding text-center size=3>
+            <ion-button (click)="incrementFilterPeriod(-1)"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+          </ion-col>
+          
+          <ion-col no-padding text-center>
+            <h4>{{getFilterPeriodString()}}</h4>
+          </ion-col>
+  
+          <ion-col no-padding text-center size=3>
+            <ion-button (click)="incrementFilterPeriod(+1)" *ngIf="getFilterPeriodString()!='All'"><ion-icon name="arrow-forward-outline"></ion-icon></ion-button>
+          </ion-col>
+  
+        </ion-row>
+      </ion-grid>
+    </ion-item-divider>
+  
+    <div style="display: block;">
+      <canvas baseChart
+        [data] = "chartData"
+        [labels] = "chartLabels"
+        [chartType] = "chartType"
+        (chartHover) = "chartHovered($event)"
+        (chartClick) = "chartClicked($event)"></canvas>
+    </div>
+  
+    <ion-card *ngFor="let trip of getDrives()">
+      <app-drive-view expandHeight="150px" [drive]="trip"></app-drive-view>
+    </ion-card>
+  
+  </div>
+
+  <ion-item *ngIf="getDrives().length==0">
+    <ion-label><p>You have not logged any drive yet.</p></ion-label>
+  </ion-item>
+
+
+</ion-content>

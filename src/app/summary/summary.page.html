@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Home</ion-title>
+
+    <!-- Standard logout button -->
+    <ion-buttons slot="primary">
+      <ion-button routerLink="/" routerDirection="root" fill="clear" slot="primary">
+        Logout
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item>
+      <ion-avatar><img src="{{database.current.user.photoURL}}"></ion-avatar>
+      <ion-label class="ion-padding-start">
+        <h3>{{database.current.user.rank}} {{database.current.user.name}}</h3>
+        <p>{{database.current.user.company}} Coy, {{database.current.user.fleet}}</p>
+      </ion-label>    
+    </ion-item>
+  </ion-list>
+
+  <!-- First Section (Total Distance, Time and Drives) -->
+  <ion-list>
+    <ion-list-header><h4>TOTAL</h4></ion-list-header>
+
+    <ion-item>
+      <ion-icon slot="start" name="speedometer-outline" color="primary"></ion-icon>
+      <ion-label class="ion-padding-start">Mileage</ion-label>
+      <ion-badge slot="end">{{database.current.stats.mileage_km}} km</ion-badge>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon slot="start" name="car-outline" color="primary"></ion-icon>
+      <ion-label class="ion-padding-start">Drives</ion-label>
+      <ion-badge slot="end">{{database.current.stats.drive_count}} trips</ion-badge>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon slot="start" name="time-outline" color="primary"></ion-icon>
+      <ion-label class="ion-padding-start">Time</ion-label>
+      <ion-badge slot="end">{{database.current.stats.duration_minutes / 60 | number : '1.0-1'}} hrs</ion-badge>
+    </ion-item>
+
+  </ion-list>
+
+  <!-- Second Section (Last Drive, Operator Currency) -->
+  <ion-list>
+    <ion-list-header><h4>PLATFORM CURRENCY</h4></ion-list-header>
+
+    <ion-item *ngFor="let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue">
+      <ion-badge slot="start" *ngIf="checkOperatorCurrencyValid(vehicle.key, database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])">{{vehicle.key}}</ion-badge>
+      <ion-badge color="danger" slot="start" *ngIf="checkOperatorCurrencyInvalid(vehicle.key, database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])">{{vehicle.key}}</ion-badge>
+      <ion-label><h3>{{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | date: "ddMMyy HHmm"}} hrs</h3></ion-label>
+      <ion-note slot="end">({{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | daysAgo}} days ago)</ion-note>
+    </ion-item>
+
+    <ion-item *ngIf="database.current.stats.drive_count==0">
+      <ion-label><p>You have not logged any drive yet.</p></ion-label>
+    </ion-item>
+
+  </ion-list>
+
+  <!-- Third Section (Chart Slides) -->
+  <ion-list>
+    <ion-list-header><h4>OVERVIEW</h4></ion-list-header>
+
+    <ion-slides pager="true">
+      <ion-slide><canvas #chartCanvas1></canvas></ion-slide>
+      <ion-slide><canvas #chartCanvas2></canvas></ion-slide>
+      <ion-slide><canvas #chartCanvas3></canvas></ion-slide>
+    </ion-slides>
+  </ion-list>
+
+  <!-- Last Section (Notifications) -->
+  <ion-list>
+    <ion-list-header><h4>NOTIFICATIONS</h4></ion-list-header>
+
+    <ion-card *ngFor="let message of getNotifications()" (click)="click(message.trip)">
+      <ion-card-header>
+        <ion-card-subtitle color="danger">
+          <ion-icon size="large" name="people-outline" *ngIf="message.subtitle==='Awaiting Review'"></ion-icon>
+          <ion-icon size="large" name="car-outline" *ngIf="message.subtitle==='Drive-In-Progress'"></ion-icon><br>
+          <strong>{{message.subtitle}}</strong>
+        </ion-card-subtitle>
+        <ion-icon style="float: right;" name="chevron-forward"></ion-icon>
+        <ion-card-title>{{message.title}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>{{message.text}}</ion-card-content>
+    </ion-card>
+
+    <ion-item *ngIf="getNotifications().length==0">
+      <ion-label><p>You have no notifications.</p></ion-label>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

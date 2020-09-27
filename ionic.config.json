@@ -1,0 +1,10 @@
+{
+  "name": "EngineersLogbook-BEv2",
+  "integrations": {
+    "capacitor": {
+      "enabled": false
+    },
+    "cordova": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,55 @@
+ion-card .header-img {
+    width: 100%;
+    height: auto;
+}
+
+ion-card {
+    margin-top: 6em;
+}
+
+ion-content {
+    --padding-start: 10%;
+    --padding-end: 10%;
+}
+
+.avatar-center {
+    text-align: center;
+}
+
+ion-col.img{
+    display: inline;
+}
+
+.center-any-object {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.vertical-align-content > * {
+    display: flex!important;
+    align-content: center!important;
+    align-items: center!important;
+    justify-content: center!important;
+}
+
+ion-fab {
+    top: 28px;
+}
+
+ion-fab-button[large] {
+    width: 12em;
+    height: 12em;
+    line-height: 12em;
+    margin: auto;
+    padding: 2px;
+}
+ion-icon[large] {
+    width: 5em;
+    height: 5em;
+}
+
+.fab-horizontal-center {
+    left: 40%;
+}

@@ -1,0 +1,34 @@
+ion-item {
+    --border-style: none;
+}
+
+.gauge_value{
+    font-weight:900;
+}
+.top_stats{
+    font-size: 150%;
+    font-weight: 900; 
+    text-align: center;
+}
+
+.top_inputs{
+    font-size: 20px;  
+}
+
+.top_labels{
+    font-size: 25px;
+    padding-bottom: 5px;
+
+}
+
+.scrollable{
+    height:auto;
+    overflow-y: auto;
+}
+
+.vertical-align-content > * {
+    display: flex!important;
+    align-content: center!important;
+    align-items: center!important;
+}
+

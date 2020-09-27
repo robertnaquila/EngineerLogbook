@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Driver View</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="driver">
+
+    <ion-list>
+      <ion-item lines="none">
+        <!-- TODO: Use user photo instead of default -->
+        <ion-avatar><img src="{{driver.photoURL}}"></ion-avatar>
+        <ion-label class="ion-padding-start">
+          <h3>{{driver.rank}} {{driver.name}}</h3>
+          <p>{{driver.company}} Coy, {{driver.fleet}}</p>
+        </ion-label>    
+      </ion-item>
+    </ion-list>
+    
+    <!-- First Section (Total Distance, Time and Drives) -->
+    <ion-list *ngIf="driver.summary.mileage_km || driver.summary.drive_count || driver.summary.duration_minutes">
+      <ion-list-header><h4>TOTAL</h4></ion-list-header>
+    
+      <ion-item lines="none" *ngIf="driver.summary.mileage_km">
+        <ion-icon slot="start" name="speedometer-outline" color="primary"></ion-icon>
+        <ion-label class="ion-padding-start">Mileage</ion-label>
+        <ion-badge slot="end">{{driver.summary.mileage_km}} km</ion-badge>
+      </ion-item>
+    
+      <ion-item lines="none" *ngIf="driver.summary.drive_count">
+        <ion-icon slot="start" name="car-outline" color="primary"></ion-icon>
+        <ion-label class="ion-padding-start">Drives</ion-label>
+        <ion-badge slot="end">{{driver.summary.drive_count}} trips</ion-badge>
+      </ion-item>
+    
+      <ion-item lines="none" *ngIf="driver.summary.duration_minutes">
+        <ion-icon slot="start" name="time-outline" color="primary"></ion-icon>
+        <ion-label class="ion-padding-start">Time</ion-label>
+        <ion-badge slot="end">{{driver.summary.duration_minutes / 60 | number : '1.0-1'}} hrs</ion-badge>
+      </ion-item>
+    
+    </ion-list>
+    
+    <!-- Second Section (Last Drive, Operator Currency) -->
+
+    <ion-list *ngIf="driver.summary.mileage_km || driver.summary.drive_count || driver.summary.duration_minutes">
+      <ion-list-header><h4>PLATFORM CURRENCY</h4></ion-list-header>
+    
+      <ion-item lines="none" *ngFor="let vehicle of driver.summary.most_recent_drive_by_vehicle_type | keyvalue">
+        <ion-badge slot="start" *ngIf="checkOperatorCurrencyValid(vehicle.key, driver.summary.most_recent_drive_by_vehicle_type[vehicle.key])">{{vehicle.key}}</ion-badge>
+        <ion-badge color="danger" slot="start" *ngIf="checkOperatorCurrencyInvalid(vehicle.key, driver.summary.most_recent_drive_by_vehicle_type[vehicle.key])">{{vehicle.key}}</ion-badge>
+        <ion-label><h3>{{driver.summary.most_recent_drive_by_vehicle_type[vehicle.key] | date: "ddMMyy HHmm"}} hrs</h3></ion-label>
+        <ion-note slot="end">({{driver.summary.most_recent_drive_by_vehicle_type[vehicle.key] | daysAgo}} days ago)</ion-note>
+      </ion-item>
+
+      <ion-item *ngIf="driver.summary.drive_count==0">
+        <ion-label><p>The driver has not logged any drive yet.</p></ion-label>
+      </ion-item>  
+    
+    </ion-list>
+
+    <ion-list>
+      <ion-item *ngIf="driver.summary.drive_count==0">
+        <ion-label><p>The driver has not logged any drive yet.</p></ion-label>
+      </ion-item>  
+    </ion-list>
+
+  </div>
+
+</ion-content>

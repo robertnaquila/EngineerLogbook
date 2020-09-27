@@ -1,0 +1,342 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Drive Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="error-message" *ngIf="showJIT">
+    You are about to perform JIT drills.<br>
+    Please confirm the details below before commencement of JIT.
+  </div>
+
+  <form class="form" [formGroup]="addDriveForm" (submit)="addDrive(addDriveForm.value)">
+    <ion-grid>
+
+      <!-- Date -->
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Date</ion-label>
+            <ion-datetime displayFormat="DD/MMM/YYYY" formControlName="date"></ion-datetime>
+          </ion-item>
+
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.date">
+              <div class="error-message"
+                *ngIf="addDriveForm.get('date').hasError(validation.type) && (addDriveForm.get('date').dirty || addDriveForm.get('date').touched)">
+                {{validation.message}}
+              </div>
+            </ng-container>
+          </div>
+
+        </ion-col>
+      </ion-row>
+
+      <!-- Vehicle Details -->
+      <ion-row>
+
+        <!-- Vehicle Type -->
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Vehicle Type</ion-label>
+            <ion-select formControlName="vehicleType" interface="popover" [disabled]="showJIT">
+              <ion-select-option value="5TON">5TON</ion-select-option>
+              <ion-select-option value="GSB">GSB</ion-select-option>
+              <ion-select-option value="Jeep">Jeep</ion-select-option>
+              <ion-select-option value="M3G">M3G</ion-select-option>
+              <ion-select-option value="MSS">MSS</ion-select-option>
+              <ion-select-option value="OUV">OUV</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.vehicleType">
+              <div class="error-message"
+                *ngIf="addDriveForm.get('vehicleType').hasError(validation.type) && (addDriveForm.get('vehicleType').dirty || addDriveForm.get('vehicleType').touched)">
+                {{validation.message}}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+
+        <!-- Vehicle Number -->
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating" *ngIf="addDriveForm.get('vehicleType').value!=='GSB'">Vehicle Number
+            </ion-label>
+            <ion-label position="floating" *ngIf="addDriveForm.get('vehicleType').value==='GSB'">OBM Number</ion-label>
+            <ion-input formControlName="vehicleNumber"></ion-input>
+          </ion-item>
+
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.vehicleNumber">
+              <div class="error-message"
+                *ngIf="addDriveForm.get('vehicleNumber').hasError(validation.type) && (addDriveForm.get('vehicleNumber').dirty || addDriveForm.get('vehicleNumber').touched)">
+                {{validation.message}}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+
+      </ion-row>
+
+      <!-- Vehicle Comander -->
+      <ion-row>
+        <ion-col>
+
+          <ion-item>
+            <ion-label position="floating">Vehicle Commander</ion-label>
+            <ion-select formControlName="vehicleCommander" interface="popover">
+              <ion-select-option *ngFor="let c of database.current.all_commanders_of_driver" value="{{c.email}}">
+                {{c.name}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.vehicleCommander">
+              <div class="error-message"
+                *ngIf="addDriveForm.get('vehicleCommander').hasError(validation.type) && (addDriveForm.get('vehicleCommander').dirty || addDriveForm.get('vehicleCommander').touched)">
+                {{validation.message}}
+              </div>
+            </ng-container>
+          </div>
+
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+
+    <!-- Start Drive Details -->
+    <ion-card>
+      <ion-card-content>
+
+        <ion-item lines="none">
+          <ion-icon name="location-sharp" color="primary"></ion-icon>
+          <ion-label class="ion-padding-start">Start Drive Details</ion-label>
+        </ion-item>
+
+        <ion-grid>
+          <ion-row>
+            <!-- Start Location -->
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating">Location</ion-label>
+                <ion-input type="text" formControlName="startLocation"></ion-input>
+              </ion-item>
+
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validationMessages.startLocation">
+                  <div class="error-message"
+                    *ngIf="addDriveForm.get('startLocation').hasError(validation.type) && (addDriveForm.get('startLocation').dirty || addDriveForm.get('startLocation').touched)">
+                    {{validation.message}}
+                  </div>
+                </ng-container>
+              </div>
+
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+
+            <!-- Start Odometer -->
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating">Odometer</ion-label>
+                <ion-input type="number" inputmode="numeric" formControlName="startOdometer"></ion-input>
+              </ion-item>
+
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validationMessages.startOdometer">
+                  <div class="error-message"
+                    *ngIf="addDriveForm.get('startOdometer').hasError(validation.type) && (addDriveForm.get('startOdometer').dirty || addDriveForm.get('startOdometer').touched)">
+                    {{validation.message}}
+                  </div>
+                </ng-container>
+              </div>
+            </ion-col>
+
+            <!-- Start Time -->
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating">Time</ion-label>
+                <ion-datetime displayFormat="HH:mm" formControlName="startTime"></ion-datetime>
+              </ion-item>
+
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validationMessages.startTime">
+                  <div class="error-message"
+                    *ngIf="addDriveForm.get('startTime').hasError(validation.type) && (addDriveForm.get('startTime').dirty || addDriveForm.get('startTime').touched)">
+                    {{validation.message}}
+                  </div>
+                </ng-container>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <!-- Initial Engine Hour -->
+            <ion-col>
+              <ion-item *ngIf="addDriveForm.get('vehicleType').value==='GSB'">
+                <ion-label position="floating">Initial Engine Hour</ion-label>
+                <ion-datetime displayFormat="HH:mm" formControlName="initEngineHr"></ion-datetime>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- End Drive Details -->
+    <ion-card *ngIf="(drive)">
+      <ion-card-content>
+
+        <ion-item lines="none">
+          <ion-icon name="location-sharp" color="success"></ion-icon>
+          <ion-label class="ion-padding-start">End Drive Details</ion-label>
+        </ion-item>
+
+        <ion-grid>
+          <ion-row>
+            <!-- End Location -->
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating">Location</ion-label>
+                <ion-input type="text" formControlName="endLocation"></ion-input>
+              </ion-item>
+
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validationMessages.endLocation">
+                  <div class="error-message"
+                    *ngIf="addDriveForm.get('endLocation').hasError(validation.type) && (addDriveForm.get('endLocation').dirty || addDriveForm.get('endLocation').touched)">
+                    {{validation.message}}
+                  </div>
+                </ng-container>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+
+            <!-- End Odometer -->
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating">Odometer</ion-label>
+                <ion-input type="number" inputmode="numeric" formControlName="endOdometer"></ion-input>
+              </ion-item>
+
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validationMessages.endOdometer">
+                  <div class="error-message"
+                    *ngIf="addDriveForm.get('endOdometer').hasError(validation.type) && (addDriveForm.get('endOdometer').dirty || addDriveForm.get('endOdometer').touched)">
+                    {{validation.message}}
+                  </div>
+                </ng-container>
+              </div>
+            </ion-col>
+
+            <!-- End Time -->
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating">Time</ion-label>
+                <ion-datetime displayFormat="HH:mm" formControlName="endTime"></ion-datetime>
+              </ion-item>
+
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validationMessages.endTime">
+                  <div class="error-message"
+                    *ngIf="addDriveForm.get('endTime').hasError(validation.type) && (addDriveForm.get('endTime').dirty || addDriveForm.get('endTime').touched)">
+                    {{validation.message}}
+                  </div>
+                </ng-container>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <!-- Final Engine Hour -->
+          <ion-row>
+            <ion-col>
+              <ion-item *ngIf="addDriveForm.get('vehicleType').value==='GSB'">
+                <ion-label position="floating">Final Engine Hour</ion-label>
+                <ion-datetime displayFormat="HH:mm" formControlName="finalEngineHr"></ion-datetime>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- Fuel Level -->
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label>Fuel Level</ion-label>
+                <ion-range min="0" max="4" color="secondary" step="0.5" snaps formControlName="fuelLevel">
+                  <ion-label slot="start">empty</ion-label>
+                  <ion-label slot="end">full</ion-label>
+                </ion-range>
+              </ion-item>
+
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validationMessages.fuelLevel">
+                  <div class="error-message"
+                    *ngIf="addDriveForm.get('fuelLevel').hasError(validation.type) && (addDriveForm.get('fuelLevel').dirty || addDriveForm.get('fuelLevel').touched)">
+                    {{validation.message}}
+                  </div>
+                </ng-container>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <!-- Maintenance -->
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label>Maintenance Drive</ion-label>
+                <ion-toggle slot="start" formControlName="maintenance" (ionChange)="onToggle()" [(ngModel)]="isToggled">
+                </ion-toggle>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- Comments -->
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating">Comments</ion-label>
+                <ion-textarea formControlName="driveComments"></ion-textarea>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Drive Status -->
+    <ion-card *ngIf="(showStatus)">
+      <ion-list>
+        <ion-radio-group formControlName="driveStatus">
+          <ion-item>
+            <ion-label>Verified Drive</ion-label>
+            <ion-radio value="verified" formControlName="radioVerify">Verified Drive</ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>Rejected Drive</ion-label>
+            <ion-radio value="rejected" formControlName="radioReject">Rejected Drive</ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </ion-card>
+
+    <!-- Submit -->
+    <div class="btn-wrapper">
+      <div *ngIf="showSubmit()">
+        <ion-button class="submit-btn" type="submit" [disabled]="!addDriveForm.valid">Submit</ion-button>
+        <ion-button (click)="onCancel()">Cancel</ion-button>
+      </div>
+      <div *ngIf="!showSubmit()">
+        <ion-button expand="block" (click)="onCancel()">OK</ion-button>
+      </div>
+    </div>
+
+  </form>
+</ion-content>

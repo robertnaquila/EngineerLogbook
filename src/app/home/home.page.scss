@@ -1,0 +1,21 @@
+img {
+    display: block;
+    align-items: center;
+    margin: auto;
+    width: 5em;
+    height: auto;
+    padding-top: 5em;
+    padding-bottom: 2em;
+}
+
+ion-content {
+    --padding-start: 15%;
+    --padding-end: 15%;
+}
+
+.input-group {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}

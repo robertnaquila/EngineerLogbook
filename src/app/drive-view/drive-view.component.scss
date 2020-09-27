@@ -1,0 +1,17 @@
+ion-item, .row {
+    --min-height: 1em;
+}
+
+ion-col {
+    padding: 0;
+}
+
+.left {
+    display: flex !important;
+    
+    ion-item {
+        --inner-padding-end: 0px;
+    }
+    align-items: center !important;
+    justify-content: center !important;
+}

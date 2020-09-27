@@ -1,0 +1,108 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>About</ion-title>
+
+    <!-- Standard logout button -->
+    <ion-buttons slot="primary">
+      <ion-button routerLink="/" routerDirection="root" fill="clear" slot="primary">
+        Logout
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-fab vertical="top" horizontal="center">
+    <ion-fab-button large type="button" color="light" disabled>
+      <ion-icon large src="../../assets/wheel.svg"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>  
+
+  <ion-card>
+    
+    <!-- TODO: change img to app logo -->
+    <img class="header-img" src="../assets/road.jpg"/> 
+    
+    <ion-card-header>
+      <ion-card-subtitle>Bridging Engineer Currency Tracking App</ion-card-subtitle>
+      <ion-card-title>Combat Engineer's Logbook</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list>
+
+        <ion-item lines="none">
+          <ion-icon name="color-palette" slot="start"></ion-icon>
+          <ion-label><h2>Original Concept and Design</h2></ion-label>
+        </ion-item>
+        <ion-item lines="full">
+          <ion-grid>
+            <ion-row>
+              <ion-col class="center-any-object">
+                <ion-avatar><img src="../assets/CPT_Brandon_Tan.png"></ion-avatar>
+              </ion-col>
+              <ion-col class="center-any-object">
+                <ion-avatar><img src="../assets/CFC_Bryan_Fang.png"></ion-avatar>
+              </ion-col>
+            </ion-row>  
+            <ion-row>
+              <ion-col class="center-any-object">
+                <ion-label><p>Brandon Tan</p></ion-label>    
+              </ion-col>
+              <ion-col class="center-any-object">
+                <ion-label><p>Bryan Fang</p></ion-label>    
+              </ion-col>
+            </ion-row>  
+          </ion-grid>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-icon name="git-merge" slot="start"></ion-icon>
+          <ion-label><h2>System Development</h2></ion-label>
+        </ion-item>
+        <ion-item lines="full">
+          <ion-grid>
+            <ion-row>
+              <ion-col class="center-any-object">
+                <ion-avatar><img src="../assets/CFC_Bryan_Fang.png"></ion-avatar>
+              </ion-col>
+              <ion-col class="center-any-object">
+                <ion-avatar><img src="../assets/CPT_Robert_Justin.png"></ion-avatar>
+              </ion-col>
+            </ion-row>  
+            <ion-row>
+              <ion-col class="center-any-object">
+                <ion-label><p>Bryan Fang</p></ion-label>    
+              </ion-col>
+              <ion-col class="center-any-object">
+                <ion-label><p>Robert Justin</p></ion-label>    
+              </ion-col>
+            </ion-row>  
+          </ion-grid>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-icon name="mail" slot="start"></ion-icon>
+          <ion-label>
+            <h2>robert.naquila@gmail.com</h2>
+            <p>Email</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-icon name="phone-portrait" slot="start"></ion-icon>
+          <ion-label>
+            <h2>{{platform.platforms()}}</h2>
+            <p>Current Platform</p>
+          </ion-label>
+        </ion-item>
+
+      </ion-list>
+
+    </ion-card-content>
+  </ion-card>
+
+
+</ion-content>
